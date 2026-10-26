@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Native WooCommerce Dimensions Table
  * Description: Adds a lightweight [product_dimensions] shortcode to display native WooCommerce dimensions and Materials, strictly formatted with mobile responsiveness. Also mirrors dimensions, material, on-display status, stock level, showroom location, and the business's own seller identity into the page's existing Product structured data for AI/AEO crawlers, with zero visible front-end change — including a standalone fallback for catalog-only sites with no price/stock management, so that data still reaches AI/search even when WooCommerce's own native schema doesn't fire. Adds CollectionPage/ItemList structured data to product category pages, so AI/search retrieval can see the real product count and listing without a separate crawl per product. Includes a WooCommerce admin page (AEO Preview) that fetches a product's real live page by SKU and shows the actual JSON-LD found on it. Self-updates from a private GitHub repo — see WooCommerce > AEO Settings.
- * Version: 1.33
+ * Version: 1.34
  * Author: Your Dev Team
  */
 
@@ -185,6 +185,12 @@ if ( $rmaGithubToken ) {
     $rmaUpdateChecker->setAuthentication( $rmaGithubToken );
 }
 
+// v1.34: the shared check-in (RA Monitor Client 1.3.0) also tells R&A's Plugin
+// Monitor when something changed that could change what visitors see (any
+// plugin, theme or WordPress update, an Elementor save, WP Rocket clearing its
+// cache), so the monitor loads the site as a signed-out visitor and reports
+// missing styles before anyone notices. Same shared files as RA Promo
+// Manager 1.66.0.
 require_once __DIR__ . '/lib/ra-monitor-client/ra-monitor-client.php';
 RA_Monitor_Client::register( array(
     'file'      => __FILE__,
